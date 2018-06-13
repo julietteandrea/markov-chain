@@ -53,7 +53,7 @@ def make_chains(text_string):
         #print("This is text_list[i] and text_list[i+1} "+text_list[i],text_list[i+1])
         # chains[key].append(val)
 
-    print(chains)
+    # print(chains)
     return chains
 
 
@@ -61,20 +61,33 @@ def make_text(chains):
     """Return text from chains."""
 
     # your code goes here
-    key = choice(list(chains.keys())) #get keys from chains dict, put all keys in to a list, randomly select a key (a tuple) from the list
-    words = list(key) # save key tuple to a list of words
+    # get keys from chains dict, put all keys in to a list, randomly select a key (a tuple) from the list
+    key = choice(list(chains.keys())) 
 
+    words = []
+    # save key tuple to a list of words
+    words.append(key[0])
+    words.append(key[1])
+
+
+    # while the key (tuples, bigrams) is in the chains dict now
     while key in chains:
-        words.append(choice(chains[key])) # select a random word from the chains[key] (which is a list of words), add it to the words list
+        # select a random element from the value (which is a list of words),
+        # add it to the words list
+        words.append(choice(chains[key])) 
+        # assign the last and the second last tuple key
+        # now change the key you are looking at, find last two words
+        # that is now your new key (tuple)
         key = (words[-2], words[-1])
 
-    print(words)
+    # print(words)
 
+    # give me a list of strings, tell me the character you want to join them w/
     return " ".join(words)
 
 
 # input_path = "green-eggs.txt"
-input_path = "gettysburg.txt"
+input_path = "green-eggs.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
