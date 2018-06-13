@@ -11,7 +11,7 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
-    contents = open('green-eggs.txt').read()
+    contents = open(file_path).read()
     print(contents)
     return contents
 
@@ -44,13 +44,14 @@ def make_chains(text_string):
     chains = {}
 
     # your code goes here
-    text_list = text_string.split()#saving a copy into a new var(text_list) while replacing content of text_strings into separate strings
+    text_list = text_string.split()
     #loop over every two word pair
     for i in range(len(text_list)-2):#for every 'index' in the range of the len of text_list except for the last two
-        key = (text_list[i],text_list[i+1])#index of 0 then +1(until the len of text_list ends) saves as a tuple in the key var
-        chains[key] = chains.get(key,[])#saves keys into chains[key](dict) that aren't already in [key], if already in key from chain, will return an empty list 
-        print("This is text_list[i] and text_list[i+1} "+text_list[i],text_list[i+1])
-        chains[key].append(text_list[i+2])#
+        key = (text_list[i], text_list[i+1])#index of 0 then +1(until the len of text_list ends) saves as a tuple in the key var
+        val = text_list[i+2] #index of +2 saved in val variable 
+        chains[key] = chains.get(key,[]) + [val]  #saves keys into chains[key](dict) that aren't already in [key], if already in key from chain, will return an empty list 
+        #print("This is text_list[i] and text_list[i+1} "+text_list[i],text_list[i+1])
+        # chains[key].append(val)
 
     print(chains)
     return chains
@@ -60,11 +61,11 @@ def make_text(chains):
     """Return text from chains."""
 
     # your code goes here
-    key = choice(list(chains.keys()))
-    words = list(key)
+    key = choice(list(chains.keys())) #get keys from chains dict, put all keys in to a list, randomly select a key (a tuple) from the list
+    words = list(key) # save key tuple to a list of words
 
     while key in chains:
-        words.append(choice(chains[key]))
+        words.append(choice(chains[key])) # select a random word from the chains[key] (which is a list of words), add it to the words list
         key = (words[-2], words[-1])
 
     print(words)
@@ -72,7 +73,8 @@ def make_text(chains):
     return " ".join(words)
 
 
-input_path = "green-eggs.txt"
+# input_path = "green-eggs.txt"
+input_path = "gettysburg.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
@@ -80,7 +82,7 @@ input_text = open_and_read_file(input_path)
 # Get a Markov chain
 chains = make_chains(input_text)
 
-# Produce random text
+# # Produce random text
 random_text = make_text(chains)
 
 print(random_text)
